@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <script src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
+       <script>
+           window.onload = function() {
+             document.getElementById("search").addEventListener(
+                             "click", function(){
+                // go out and get result from request.php
+                 new Ajax.Request("request.php?q=definition",
+                       {
+                          method: "get",
+                          onSuccess: processRequest
+                         });
+                  
+           });
+function processRequest(data) {
+                          alert(data.responseText);
+                        }
+           }                        
+       </script>
+        <title>Lab6</title>
+    </head>
+    <body>
+            <button id="search">Click to Search</button>
+    </body>
+</html>
