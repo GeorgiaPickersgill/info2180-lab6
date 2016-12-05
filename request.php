@@ -14,5 +14,23 @@ $definition = [
     "php" => "A server-side scripting language, and a powerful tool for making dynamic and interactive websites",
 ];
 
-print "<h3>" . strtoupper($query) . "</h3>";
-print "<p>" . $definition[$query] . "</p>";
+/*print "<h3>" . strtoupper($query) . "</h3>";
+print "<p>" . $definition[$query] . "</p>"; //Question 2 & 3
+*/
+
+$xmldata = '<?xml version="1.0" encoding="UTF-8"?>
+<webDictionary>
+    <definition name="definition" author="John">
+        A statement of the exact meaning of a word, especially in a dictionary.
+    </definition>
+    <definition name="bar" author="mary">
+        A place that sells alcholic beverages
+    </definition>
+    <definition name="ajax" author="Kimberly">
+        Technique which involves the use of javascript and xml
+    </definition>
+</webDictionary>';
+
+header('Content-Type: text/xml');
+$xmlOutput = new SimpleXMLElement($xmldata);
+echo $xmlOutput->asXML();

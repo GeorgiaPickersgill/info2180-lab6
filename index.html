@@ -7,40 +7,64 @@
        <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
        <script>
            window.onload = function() {
-            document.getElementById("searchbutton").addEventListener("click", function(){
-                var wordintextarea = $("#word").val(); // gives the term entered in the search bar
-                var url = "request.php?q=";
+            document.getElementById("getAll").addEventListener("click", function(){
+                //var wordintextarea = $("#word").val(); // gives the term entered in the search bar
+                //var url = "request.php?q=";
+                //new Ajax.Updater("result","request.php?q=&all=true",{method: "get", onSuccess: processRequest});
                 
-                $.ajax({url: url + wordintextarea,}) // query is updated with whatever word is entered in the text bar
+                /*$.ajax({url: url + wordintextarea,}) // query is updated with whatever word is entered in the text bar
                 .done(function(data)
                 {$( "#result" ).html(data);}) // prints the definition of the term in the results div 
                 .fail(function()  // In the event request is not able to find request pages
-                {alert("ERROR");});
+                {alert("ERROR");});*/ //Question 3
                 /*new Ajax.Request("request.php?q=definition",
                 {method: "get",onSuccess: processRequest});*/ //Question 2
-            
-           });
-
+                //event.preventDefault();
+                $.ajax({
+                    url: "request.php?q=&all=true",
+                    method: "GET",
+                    dataType:"xml"})
+                    
+                .done(function(response){
+                     var term = $(response).find("definition");
+                     var ol = document.createElement("ol");
+                     $("#result").html("");
+                     $("#result").append("<ol></ol>");
+                     $(term).each(function(index, value)
+                     
+                     {
+                         console.log($(value).attr("name"));
+                         console.log($(value).html());
+                         $('#result ol').append("<li><h3>" + $(value).attr("name") + "</h3>"+"<p>" + $(value).html() + "</p>" +"<p>" + "- " + $(value).attr("author") + "</p></li>");});
+                    
+                })
+                .fail(function(){
+                    alert("XML ERROR");
+                    
+                });
+    });
            
 function processRequest(data) {
-    alert(data.responseText);
-   
-        
-                        }
-           }                        
+   // alert(data.responseText); //exercise 2
+   };
+};
        </script>
+       
         <title>Lab6</title>
     </head>
     <body>
         <h1> Web Dictionary</h1>
+        <form action = "" method="post" name="form">
         <div id="engine">
         <div id= "Search">
             What word do you want to define? <input id="word" type="search">
             <button id="searchbutton">Click to Search</button>
+            <button id="getAll" >Get All Definitions</button>
         </div>
+        </div>
+        </form>
         <h2>Result</h2>
         <div id="result">
-        </div>
         </div>
     </body>
 </html>
